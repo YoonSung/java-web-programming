@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import next.model.Question;
-import next.support.db.ConnectionManager;
 import core.jdbc.JdbcTemplate;
 import core.jdbc.PreparedStatementSetter;
 import core.jdbc.RowMapper;
@@ -15,10 +14,10 @@ import core.jdbc.RowMapper;
 public class QuestionDao {
 	private JdbcTemplate jdbcTempate;
 
-	public QuestionDao() {
-		jdbcTempate = new JdbcTemplate(ConnectionManager.getConnection());
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTempate = jdbcTemplate;
 	}
-
+	
 	public void insert(final Question question) throws SQLException {
 		String sql = "INSERT INTO QUESTIONS (writer, title, contents, createdDate, countOfComment) VALUES (?, ?, ?, ?, ?)";
 		PreparedStatementSetter pss = new PreparedStatementSetter() {

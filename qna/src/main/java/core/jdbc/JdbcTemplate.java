@@ -7,11 +7,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 public class JdbcTemplate {
 	private Connection conn;
 
-	public JdbcTemplate(Connection conn) {
-		this.conn = conn;
+	public JdbcTemplate(DataSource dataSource) {
+		try {
+			this.conn = dataSource.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void update(String query, PreparedStatementSetter pss)

@@ -1,6 +1,6 @@
 package next.support.init;
 
-import next.support.db.ConnectionManager;
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +12,16 @@ public class DatabaseInitializer {
 	
 	private static final Logger log = LoggerFactory.getLogger(DatabaseInitializer.class);
 	
+	private DataSource dataSource;
+	
+	public DatabaseInitializer(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+	
 	public void initialize() {
 		ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
 		populator.addScript(new ClassPathResource("qna.sql"));
-		DatabasePopulatorUtils.execute(populator, ConnectionManager.getDataSource());
+		DatabasePopulatorUtils.execute(populator, dataSource);
 		
 		log.info("Initialized Database Schema!");
 	}

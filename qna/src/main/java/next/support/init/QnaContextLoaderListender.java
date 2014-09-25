@@ -7,7 +7,8 @@ import next.config.Config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 public class QnaContextLoaderListender implements ServletContextListener {
 	
@@ -16,13 +17,12 @@ public class QnaContextLoaderListender implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		
-		try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Config.class)) {
-			context.refresh();
-			log.info("ApplicationContext Initialize!");
-		} catch(Exception e) {
-			log.error("ApplicationContext Initialize Error : {}", e.getMessage());
-			e.printStackTrace();
-		}
+		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+		context.register(Config.class);
+		context.refresh();
+		sce.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, context);
+		
+		log.info("ApplicationContext Initialize!");
 	}
 
 	@Override

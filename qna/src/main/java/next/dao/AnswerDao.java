@@ -7,17 +7,20 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import next.model.Answer;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import core.jdbc.JdbcTemplate;
 import core.jdbc.PreparedStatementSetter;
 import core.jdbc.RowMapper;
 
+@Component
 public class AnswerDao {
 	
+	
+	@Autowired
 	private JdbcTemplate jdbcTempate;
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTempate = jdbcTemplate;
-	}
 
 	public void insert(final Answer answer) throws SQLException {
 		String sql = "INSERT INTO ANSWERS (writer, contents, createdDate, questionId) VALUES (?, ?, ?, ?)";

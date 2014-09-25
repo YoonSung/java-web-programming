@@ -6,18 +6,20 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import next.model.Question;
 import core.jdbc.JdbcTemplate;
 import core.jdbc.PreparedStatementSetter;
 import core.jdbc.RowMapper;
 
+@Component
 public class QuestionDao {
+	
+	@Autowired
 	private JdbcTemplate jdbcTempate;
 
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTempate = jdbcTemplate;
-	}
-	
 	public void insert(final Question question) throws SQLException {
 		String sql = "INSERT INTO QUESTIONS (writer, title, contents, createdDate, countOfComment) VALUES (?, ?, ?, ?, ?)";
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
